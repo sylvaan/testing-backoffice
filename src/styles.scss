@@ -1,1 +1,398 @@
-/* You can add global styles to this file, and also import other style files */
+/* Import styles from node_modules */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+@import '~@ng-select/ng-select/themes/default.theme.css';
+
+/* Import Google Fonts Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Base Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f3f6f9;
+  color: #3f4254;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #181c32;
+  font-weight: 600;
+}
+
+/* Custom Cards Metronic */
+.card-custom {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 0.42rem;
+  box-shadow: 0px 0px 30px 0px rgba(82, 63, 105, 0.05);
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  
+  .card-header {
+    background-color: transparent;
+    border-bottom: 1px solid #ebedf3;
+    min-height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    
+    .card-title {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin: 0;
+      
+      .card-label {
+        font-weight: 600;
+        font-size: 1.2rem;
+        color: #181c32;
+        margin: 0;
+      }
+      
+      .text-muted {
+        font-size: 0.85rem;
+        font-weight: 400;
+        color: #b5b5c3 !important;
+        margin-top: 0.25rem;
+      }
+    }
+    
+    .card-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+    flex: 1 1 auto;
+  }
+}
+
+/* Custom Tables Metronic */
+.table-head-custom {
+  th {
+    background-color: #f3f6f9;
+    color: #b5b5c3;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08rem;
+    border-bottom: 1px solid #ebedf3 !important;
+    border-top: none !important;
+    padding: 0.85rem 1rem !important;
+    white-space: nowrap;
+    
+    &.sortable {
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.15s ease, background-color 0.15s ease;
+      &:hover {
+        color: #3699ff;
+        background-color: #ecf8ff;
+      }
+      
+      i {
+        margin-left: 0.35rem;
+        font-size: 0.7rem;
+      }
+    }
+  }
+}
+
+.table-vertical-center {
+  td {
+    vertical-align: middle !important;
+    color: #3f4254;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0.85rem 1rem !important;
+    border-bottom: 1px solid #ebedf3 !important;
+    border-top: none !important;
+  }
+}
+
+/* Custom Forms Metronic */
+.form-group {
+  margin-bottom: 1.25rem;
+  
+  label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #3f4254;
+    margin-bottom: 0.5rem;
+  }
+  
+  .text-danger {
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+  }
+}
+
+.form-control-custom {
+  display: block !important;
+  width: 100% !important;
+  background-color: #f3f6f9 !important;
+  border: 1px solid transparent !important;
+  color: #3f4254 !important;
+  font-weight: 500 !important;
+  font-size: 0.9rem !important;
+  border-radius: 0.42rem !important;
+  transition: all 0.2s ease !important;
+  height: calc(1.5em + 1.1rem + 2px) !important;
+  padding: 0.55rem 0.9rem !important;
+  
+  &:focus {
+    background-color: #ebedf3 !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    color: #3f4254 !important;
+  }
+  
+  &::placeholder {
+    color: #b5b5c3;
+    font-weight: 400;
+  }
+  
+  &.is-invalid {
+    border-color: #f64e60 !important;
+    background-color: #fff5f5 !important;
+    &:focus {
+      background-color: #fff5f5 !important;
+    }
+  }
+}
+
+/* ng-select Metronic Customization */
+.ng-select-custom {
+  .ng-control {
+    background-color: #f3f6f9 !important;
+    border: 1px solid transparent !important;
+    border-radius: 0.42rem !important;
+    min-height: calc(1.5em + 1.1rem + 2px) !important;
+    padding: 0.15rem 0.5rem !important;
+    
+    &:focus-within {
+      background-color: #ebedf3 !important;
+      border-color: transparent !important;
+      box-shadow: none !important;
+    }
+  }
+  
+  &.is-invalid .ng-control {
+    border-color: #f64e60 !important;
+    background-color: #fff5f5 !important;
+  }
+  
+  .ng-value-container .ng-placeholder {
+    color: #b5b5c3 !important;
+    font-weight: 400;
+  }
+  
+  .ng-value {
+    color: #3f4254 !important;
+    font-weight: 500;
+  }
+}
+
+/* Custom Buttons Metronic */
+.btn-primary-custom {
+  background-color: #3699ff !important;
+  border-color: #3699ff !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  border-radius: 0.42rem !important;
+  padding: 0.55rem 1.25rem !important;
+  font-size: 0.9rem;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  
+  &:hover:not(:disabled) {
+    background-color: #187de4 !important;
+    border-color: #187de4 !important;
+  }
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.btn-warning-custom {
+  background-color: #ffa800 !important;
+  border-color: #ffa800 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  border-radius: 0.42rem !important;
+  padding: 0.4rem 0.9rem !important;
+  font-size: 0.85rem;
+  transition: all 0.25s ease;
+  
+  &:hover:not(:disabled) {
+    background-color: #ee9d01 !important;
+    border-color: #ee9d01 !important;
+  }
+}
+
+.btn-danger-custom {
+  background-color: #f64e60 !important;
+  border-color: #f64e60 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  border-radius: 0.42rem !important;
+  padding: 0.4rem 0.9rem !important;
+  font-size: 0.85rem;
+  transition: all 0.25s ease;
+  
+  &:hover:not(:disabled) {
+    background-color: #ee2d41 !important;
+    border-color: #ee2d41 !important;
+  }
+}
+
+.btn-secondary-custom {
+  background-color: #e4e6ef !important;
+  border-color: #e4e6ef !important;
+  color: #3f4254 !important;
+  font-weight: 600 !important;
+  border-radius: 0.42rem !important;
+  padding: 0.55rem 1.25rem !important;
+  font-size: 0.9rem;
+  transition: all 0.25s ease;
+  
+  &:hover:not(:disabled) {
+    background-color: #d1d3e0 !important;
+    border-color: #d1d3e0 !important;
+  }
+}
+
+.btn-icon-custom {
+  width: calc(1.5em + 1.1rem + 2px);
+  height: calc(1.5em + 1.1rem + 2px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.42rem;
+  border: 1px solid #ebedf3;
+  background-color: #ffffff;
+  color: #7e8299;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  
+  &:hover {
+    color: #3699ff;
+    border-color: #3699ff;
+    background-color: #ecf8ff;
+  }
+}
+
+/* Badge Metronic Styles */
+.badge-light-success {
+  color: #1bc5bd;
+  background-color: #c9f7f5;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.42rem;
+  font-size: 0.8rem;
+}
+
+.badge-light-danger {
+  color: #f64e60;
+  background-color: #ffe2e5;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.42rem;
+  font-size: 0.8rem;
+}
+
+/* Premium Slide-out Drawer Panel */
+.drawer-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(9, 30, 66, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 1040;
+  transition: opacity 0.3s ease;
+}
+
+.drawer-custom {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 550px;
+  max-width: 90%;
+  height: 100vh;
+  background-color: #ffffff;
+  z-index: 1050;
+  box-shadow: -10px 0px 40px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
+  transform: translateX(0);
+  
+  &.drawer-closed {
+    transform: translateX(100%);
+  }
+  
+  .drawer-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #ebedf3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .drawer-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #181c32;
+      margin: 0;
+    }
+    
+    .drawer-close-btn {
+      background: transparent;
+      border: none;
+      color: #7e8299;
+      font-size: 1.2rem;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.42rem;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        color: #3699ff;
+        background-color: #ecf8ff;
+      }
+    }
+  }
+  
+  .drawer-content {
+    padding: 1.5rem;
+    flex: 1;
+    overflow-y: auto;
+  }
+  
+  .drawer-footer {
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid #ebedf3;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    background-color: #fcfcfd;
+  }
+}

@@ -1,0 +1,69 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="brand-icon">
+        <i class="fas fa-user-shield"></i>
+      </div>
+      <h3>Employee Portal</h3>
+    </div>
+
+    <div class="error-alert" *ngIf="loginError">
+      <i class="fas fa-exclamation-circle"></i>
+      <span>{{ loginError }}</span>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          class="form-control-custom"
+          placeholder="Username (admin)"
+          [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"
+        />
+        <div *ngIf="submitted && f['username'].errors" class="text-danger">
+          <div *ngIf="f['username'].errors['required']">
+            Username wajib diisi
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control-custom"
+          placeholder="Password (admin)"
+          [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+        />
+        <div *ngIf="submitted && f['password'].errors" class="text-danger">
+          <div *ngIf="f['password'].errors['required']">
+            Password wajib diisi
+          </div>
+          <div *ngIf="f['password'].errors['minlength']">
+            Password minimal 4 karakter
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="btn-primary-custom w-100 justify-content-center mt-3"
+        [disabled]="loading"
+      >
+        <span
+          *ngIf="loading"
+          class="spinner-border spinner-border-sm mr-2"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        <i class="fas fa-sign-in-alt" *ngIf="!loading"></i>
+        <span>{{ loading ? "Memverifikasi..." : "Sign In" }}</span>
+      </button>
+    </form>
+  </div>
+</div>

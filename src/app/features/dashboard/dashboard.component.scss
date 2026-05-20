@@ -1,0 +1,100 @@
+.welcome-card {
+  max-width: 650px;
+  margin: 2rem auto;
+  border: 1px solid #ebedf3;
+  border-radius: 0.65rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  background-color: #ffffff;
+  
+  .welcome-icon-wrapper {
+    i {
+      font-size: 4rem;
+    }
+  }
+  
+  .welcome-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #181c32;
+  }
+  
+  .welcome-subtitle {
+    font-size: 0.95rem;
+    color: #7e8299;
+  }
+  
+  .profile-detail-card {
+    max-width: 320px;
+    background-color: #f8f9fa;
+    border: 1px solid #ebedf3;
+    border-radius: 0.5rem;
+    padding: 1.75rem;
+    
+    .profile-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #e1f0ff;
+      color: #3699ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.35rem;
+      margin: 0 auto;
+      box-shadow: 0 4px 10px rgba(54, 153, 255, 0.15);
+    }
+    
+    .profile-username {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #181c32;
+    }
+    
+    .profile-timestamp {
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+  }
+  
+  .quick-nav-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+}
+
+.btn-primary-custom {
+  background-color: #3699ff !important;
+  border-color: #3699ff !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  border-radius: 0.42rem !important;
+  transition: all 0.2s ease !important;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  
+  &:hover {
+    background-color: #187de4 !important;
+    border-color: #187de4 !important;
+    color: #ffffff !important;
+  }
+}
+
+.btn-outline-danger {
+  border: 1px solid #f64e60 !important;
+  color: #f64e60 !important;
+  background: transparent !important;
+  font-weight: 600 !important;
+  border-radius: 0.42rem !important;
+  transition: all 0.2s ease !important;
+  display: inline-flex;
+  align-items: center;
+  
+  &:hover {
+    background-color: #ffe2e5 !important;
+    color: #f64e60 !important;
+    border-color: transparent !important;
+  }
+}

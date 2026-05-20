@@ -1,0 +1,53 @@
+<div class="app-container">
+  <aside class="app-sidebar">
+    <div class="sidebar-brand">
+      <a routerLink="/dashboard" class="brand-logo">
+        <i class="fas fa-user-tie text-primary mr-2"></i>
+        <span>Employee Portal</span>
+      </a>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul>
+        <li>
+          <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-th-large"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/employees" routerLinkActive="active">
+            <i class="fas fa-users"></i>
+            <span>Data Pegawai</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="app-main-content">
+    <header class="app-topbar">
+      <div class="topbar-left">
+        <h4 class="m-0 font-weight-bold text-dark">Portal Backoffice</h4>
+      </div>
+
+      <div class="topbar-right">
+        <div class="user-profile">
+          <div class="user-avatar-sm">
+            {{ currentUser?.username?.substring(0, 2).toUpperCase() }}
+          </div>
+          <span class="user-name">{{ currentUser?.username }}</span>
+          <span class="user-role-badge">{{ currentUser?.role }}</span>
+        </div>
+
+        <button class="btn-logout" (click)="logout()" title="Sign Out">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+      </div>
+    </header>
+
+    <main class="app-body">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
