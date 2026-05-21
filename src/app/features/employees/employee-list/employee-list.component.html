@@ -2,53 +2,92 @@
   <div class="card-header border-0 pt-6 pb-2">
     <div class="card-title flex-column">
       <h3 class="card-label font-weight-bold text-dark m-0">Daftar Pegawai</h3>
-      <span class="text-muted font-size-sm mt-1">Mengelola data profil dan administratif pegawai</span>
     </div>
-    <div class="card-toolbar">
+
+    <div class="card-toolbar toolbar-actions">
       <div class="search-container">
         <i class="fas fa-search search-icon"></i>
-        <input type="text" class="search-input w-100" placeholder="Cari nama, email, username, divisi..."
+        <input type="text" class="search-input w-100" placeholder="Cari nama, email, username..."
           [(ngModel)]="searchTerm" (input)="onSearchChange()" />
       </div>
+
+      <div class="group-select-container">
+        <ng-select [items]="groups" [(ngModel)]="selectedGroup" (change)="onSearchChange()" placeholder="Semua Divisi"
+          [clearable]="true" [searchable]="true" class="ng-select-custom w-100">
+        </ng-select>
+      </div>
+
+      <button class="btn-primary-custom" routerLink="/employees/add">
+        <i class="fas fa-plus"></i>
+        <span>Tambah Pegawai</span>
+      </button>
     </div>
   </div>
 
   <div class="card-body py-3">
     <div class="table-responsive">
-      <table class="table table-vertical-center">
+      <table class="table table-compact">
         <thead>
           <tr class="text-muted text-uppercase font-size-sm">
-            <th>Nama Lengkap</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Grup Divisi</th>
-            <th class="text-right">Gaji Pokok</th>
-            <th class="text-center">Status</th>
-            <th>Deskripsi Tanggal</th>
+            <th (click)="toggleSort('name')" style="cursor: pointer; user-select: none;">
+              Pegawai
+              <i class="fas" [ngClass]="{
+                'fa-sort-amount-down text-primary': sortColumn === 'name' && sortDirection === 'asc',
+                'fa-sort-amount-up text-primary': sortColumn === 'name' && sortDirection === 'desc',
+                'fa-sort text-muted': sortColumn !== 'name'
+              }" style="margin-left: 5px; font-size: 0.75rem;"></i>
+            </th>
+            <th (click)="toggleSort('email')" style="cursor: pointer; user-select: none;">
+              Email
+              <i class="fas" [ngClass]="{
+                'fa-sort-amount-down text-primary': sortColumn === 'email' && sortDirection === 'asc',
+                'fa-sort-amount-up text-primary': sortColumn === 'email' && sortDirection === 'desc',
+                'fa-sort text-muted': sortColumn !== 'email'
+              }" style="margin-left: 5px; font-size: 0.75rem;"></i>
+            </th>
+            <th (click)="toggleSort('group')" style="cursor: pointer; user-select: none;">
+              Grup Divisi
+              <i class="fas" [ngClass]="{
+                'fa-sort-amount-down text-primary': sortColumn === 'group' && sortDirection === 'asc',
+                'fa-sort-amount-up text-primary': sortColumn === 'group' && sortDirection === 'desc',
+                'fa-sort text-muted': sortColumn !== 'group'
+              }" style="margin-left: 5px; font-size: 0.75rem;"></i>
+            </th>
+            <th (click)="toggleSort('status')" style="cursor: pointer; user-select: none;" class="text-center">
+              Status
+              <i class="fas" [ngClass]="{
+                'fa-sort-amount-down text-primary': sortColumn === 'status' && sortDirection === 'asc',
+                'fa-sort-amount-up text-primary': sortColumn === 'status' && sortDirection === 'desc',
+                'fa-sort text-muted': sortColumn !== 'status'
+              }" style="margin-left: 5px; font-size: 0.75rem;"></i>
+            </th>
+            <th class="text-center">Aksi</th>
           </tr>
+        </thead>
         <tbody>
           <tr *ngIf="pagedEmployees.length === 0">
-            <td colspan="7" class="text-center py-5 text-muted font-weight-bold">
+            <td colspan="5" class="text-center py-5 text-muted font-weight-bold">
               <i class="fas fa-users-slash d-block font-size-h1 mb-2" style="font-size: 2.5rem; color: #b5b5c3;"></i>
               Tidak ada data pegawai yang ditemukan
             </td>
+          </tr>
+
           <tr *ngFor="let emp of pagedEmployees">
             <td>
-              <span class="text-dark-75 font-weight-bolder font-size-lg">
-                {{ emp.firstName }} {{ emp.lastName }}
-              </span>
+              <div class="d-flex flex-column">
+                <a [routerLink]="['/employees/detail', emp.id]"
+                  class="text-dark-75 font-weight-bolder text-hover-primary text-decoration-none"
+                  style="font-size: 0.88rem;">
+                  {{ emp.firstName }} {{ emp.lastName }}
+                </a>
+                <span class="text-muted" style="font-size: 0.75rem; margin-top: 2px;">@{{ emp.username }}</span>
+              </div>
             </td>
             <td>
-              <span class="text-dark-75 font-weight-bold">{{ emp.username }}</span>
+              <span class="text-muted font-weight-bold" style="font-size: 0.8rem;">{{ emp.email }}</span>
             </td>
             <td>
-              <span class="text-muted font-weight-bold">{{ emp.email }}</span>
-            </td>
-            <td>
-              <span class="text-dark-75 font-weight-bold">{{ emp.group }}</span>
-            </td>
-            <td class="text-right text-dark-75 font-weight-bolder">
-              {{ emp.basicSalary | currency:'IDR':'symbol-narrow':'1.0-0' }}
+              <span class="text-dark-75 font-weight-bold" style="font-size: 0.8rem;">{{ emp.group }}</span>
             </td>
             <td class="text-center">
               <span class="badge" [ngClass]="{
@@ -58,10 +97,18 @@
                 {{ emp.status }}
               </span>
             </td>
-            <td>
-              <span class="text-muted font-weight-bold">
-                {{ emp.description | date:'dd MMM yyyy, HH:mm' }}
-              </span>
+            <td class="text-center">
+              <div class="btn-actions-container">
+                <button class="btn-action-view" [routerLink]="['/employees/detail', emp.id]" title="Lihat Detail">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn-action-edit" (click)="onEdit(emp)" title="Edit">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-action-delete" (click)="onDelete(emp)" title="Hapus">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -76,7 +123,7 @@
       </span>
 
       <select class="form-control form-control-sm font-weight-bold mr-4 text-muted bg-light border-0"
-        style="width: 75px; height: 32px; border-radius: 0.35rem; padding: 0 0.5rem; cursor: pointer;"
+        style="width: 75px; height: 32px; border-radius: 0.35rem; padding: 0 0.5rem; cursor: pointer; outline: none;"
         [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
         <option *ngFor="let opt of pageSizeOptions" [value]="opt">{{ opt }}</option>
       </select>

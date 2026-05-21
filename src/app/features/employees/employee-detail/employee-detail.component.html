@@ -1,0 +1,87 @@
+<div class="card card-custom" *ngIf="employee; else notFound">
+  <div class="card-header border-0 pt-6 pb-2">
+    <div class="card-title flex-column">
+      <h3 class="card-label font-weight-bold text-dark m-0">Detail Pegawai</h3>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="profile-banner d-flex align-items-center mb-2 p-3">
+      <div class="profile-avatar mr-5">
+        <i class="fas fa-user-tie"></i>
+      </div>
+      <div class="profile-meta">
+        <h2 class="profile-name m-0 font-weight-bolder text-dark">{{ employee.firstName }} {{ employee.lastName }}</h2>
+        <span class="text-muted font-size-sm mt-1 d-block">ID Pegawai: <strong class="text-primary">{{ employee.id
+            }}</strong></span>
+      </div>
+      <div class="ml-auto">
+        <span class="badge" [ngClass]="{
+            'badge-light-success': employee.status === 'Aktif',
+            'badge-light-danger': employee.status === 'Nonaktif'
+          }">
+          {{ employee.status }}
+        </span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <h5 class="section-title text-uppercase mb-4">Informasi Administrasi</h5>
+
+        <div class="info-group">
+          <label class="info-label">Username</label>
+          <div class="info-value">@{{ employee.username }}</div>
+        </div>
+
+        <div class="info-group">
+          <label class="info-label">Grup Divisi</label>
+          <div class="info-value">{{ employee.group }}</div>
+        </div>
+
+        <div class="info-group">
+          <label class="info-label">Gaji Pokok</label>
+          <div class="info-value salary-highlight">{{ formatToRupiah(employee.basicSalary) }}</div>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-4">
+        <h5 class="section-title text-uppercase mb-4">Informasi Profil & Tanggal</h5>
+
+        <div class="info-group">
+          <label class="info-label">Email Kantor</label>
+          <div class="info-value">
+            <a href="mailto:{{ employee.email }}" class="text-hover-primary text-decoration-none">
+              {{ employee.email }}
+            </a>
+          </div>
+        </div>
+
+        <div class="info-group">
+          <label class="info-label">Tanggal Lahir</label>
+          <div class="info-value">{{ employee.birthDate | date:'dd MMMM yyyy' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer d-flex justify-content-end py-4 border-0">
+    <button class="btn-primary-custom px-6" (click)="goBack()">
+      <span>Kembali</span>
+    </button>
+  </div>
+</div>
+
+<ng-template #notFound>
+  <div class="card card-custom">
+    <div class="card-body py-10 text-center text-muted">
+      <i class="fas fa-exclamation-triangle font-size-h1 text-warning mb-3" style="font-size: 3rem;"></i>
+      <h3 class="font-weight-bold text-dark mb-1">Pegawai Tidak Ditemukan</h3>
+      <p class="mb-4">Data pegawai yang Anda cari tidak terdaftar atau telah dihapus.</p>
+      <button class="btn-primary-custom" (click)="goBack()">
+        <i class="fas fa-arrow-left mr-1"></i>
+        <span>Kembali ke Daftar</span>
+      </button>
+    </div>
+  </div>
+</ng-template>

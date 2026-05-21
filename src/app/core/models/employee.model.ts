@@ -1,4 +1,5 @@
 export interface Employee {
+  id: string;
   username: string;
   firstName: string;
   lastName: string;
@@ -7,5 +8,4 @@ export interface Employee {
   basicSalary: number;
   status: 'Aktif' | 'Nonaktif';
   group: string;
-  description: string;
 }

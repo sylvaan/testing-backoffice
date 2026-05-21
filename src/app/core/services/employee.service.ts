@@ -1,26 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Employee } from '../models/employee.model';
+import { MOCK_EMPLOYEES } from '../mocks/employee.mock';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
-  private readonly STORAGE_KEY = 'employee_data_v2';
+  private readonly STORAGE_KEY = 'employee_data_v5';
   private readonly AUTH_KEY = 'auth_user';
   private employees: Employee[] = [];
-
-  private readonly firstNames = [
-    'Budi', 'Joko', 'Andi', 'Siti', 'Dewi', 'Rudi', 'Ani', 'Eko', 'Rini', 'Agus',
-    'Tono', 'Rina', 'Hadi', 'Siska', 'Dedi', 'Lusi', 'Wawan', 'Yanti', 'Hendra', 'Mega',
-    'Fahri', 'Aisyah', 'Dimas', 'Putri', 'Rian', 'Indah', 'Bambang', 'Kartika', 'Denny', 'Ratna'
-  ];
-
-  private readonly lastNames = [
-    'Santoso', 'Prabowo', 'Wijaya', 'Kurniawan', 'Susanto', 'Hidayat', 'Saputra', 'Setiawan', 'Nugroho', 'Wibowo',
-    'Siregar', 'Lubis', 'Tarigan', 'Pane', 'Harahap', 'Ginting', 'Sembiring', 'Sinaga', 'Simanjuntak', 'Nasution',
-    'Kusuma', 'Gunawan', 'Surya', 'Pratama', 'Utomo', 'Budiman', 'Hardi', 'Raharjo', 'Purnama', 'Dharma'
-  ];
 
   private readonly groups = [
     'IT Development', 'Human Resources', 'Finance & Accounting', 'Marketing', 'Sales',
@@ -34,67 +23,52 @@ export class EmployeeService {
   private initData(): void {
     const stored = localStorage.getItem(this.STORAGE_KEY);
     if (stored) {
-      this.employees = JSON.parse(stored);
-      return;
-    }
+      try {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          let healed = false;
+          this.employees = parsed.map((emp: any, index: number) => {
+            if (!emp.id || emp.id === 'undefined') {
+              healed = true;
+              return {
+                ...emp,
+                id: `EMP-${String(index + 1).padStart(3, '0')}`
+              };
+            }
+            return emp;
+          });
 
-    const tempEmployees: Employee[] = [];
-    const generatedUsernames = new Set<string>();
-
-    for (let i = 1; i <= 100; i++) {
-      const fName = this.firstNames[Math.floor(Math.random() * this.firstNames.length)];
-      const lName = this.lastNames[Math.floor(Math.random() * this.lastNames.length)];
-      
-      let baseUsername = `${fName.toLowerCase()}.${lName.toLowerCase()}`;
-      let username = baseUsername;
-      let suffix = 1;
-      while (generatedUsernames.has(username)) {
-        username = `${baseUsername}.${suffix}`;
-        suffix++;
+          if (healed) {
+            this.saveToStorage();
+          }
+          return;
+        }
+      } catch (e) {
+        console.error('Error parsing stored employees, resetting...', e);
       }
-      generatedUsernames.add(username);
-
-      const email = `${username}@company.com`;
-      
-      const birthYear = 1975 + Math.floor(Math.random() * 27);
-      const birthMonth = String(1 + Math.floor(Math.random() * 12)).padStart(2, '0');
-      const birthDay = String(1 + Math.floor(Math.random() * 28)).padStart(2, '0');
-      const birthDate = `${birthYear}-${birthMonth}-${birthDay}`;
-
-      const basicSalary = (45 + Math.floor(Math.random() * 236)) * 100000;
-      const status: 'Aktif' | 'Nonaktif' = Math.random() > 0.15 ? 'Aktif' : 'Nonaktif';
-      const group = this.groups[(i - 1) % this.groups.length];
-
-      const now = new Date();
-      const randomDaysAgo = Math.floor(Math.random() * 180);
-      const descDate = new Date(now.getTime() - randomDaysAgo * 24 * 60 * 60 * 1000);
-      
-      const descYear = descDate.getFullYear();
-      const descMonth = String(descDate.getMonth() + 1).padStart(2, '0');
-      const descDay = String(descDate.getDate()).padStart(2, '0');
-      const descHours = String(descDate.getHours()).padStart(2, '0');
-      const descMinutes = String(descDate.getMinutes()).padStart(2, '0');
-      const description = `${descYear}-${descMonth}-${descDay}T${descHours}:${descMinutes}`;
-
-      tempEmployees.push({
-        username,
-        firstName: fName,
-        lastName: lName,
-        email,
-        birthDate,
-        basicSalary,
-        status,
-        group,
-        description
-      });
     }
 
-    this.employees = tempEmployees;
+    this.employees = JSON.parse(JSON.stringify(MOCK_EMPLOYEES));
     this.saveToStorage();
   }
 
   private saveToStorage(): void {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.employees));
+  }
+
+  private searchState = {
+    searchTerm: '',
+    selectedGroup: null as string | null,
+    currentPage: 1,
+    pageSize: 10
+  };
+
+  public getSearchState() {
+    return this.searchState;
+  }
+
+  public setSearchState(state: any) {
+    this.searchState = { ...this.searchState, ...state };
   }
 
   public getGroups(): string[] {
@@ -108,6 +82,21 @@ export class EmployeeService {
   public getEmployee(username: string): Observable<Employee | undefined> {
     const emp = this.employees.find(e => e.username === username);
     return of(emp ? { ...emp } : undefined);
+  }
+
+  public getEmployeeById(id: string): Observable<Employee | undefined> {
+    const emp = this.employees.find(e => e.id === id);
+    return of(emp ? { ...emp } : undefined);
+  }
+
+  public addEmployee(emp: Employee): void {
+    this.employees.push(emp);
+    this.saveToStorage();
+  }
+
+  public deleteEmployee(id: string): void {
+    this.employees = this.employees.filter(e => e.id !== id);
+    this.saveToStorage();
   }
 
   public login(username: string, password: string): Observable<boolean> {

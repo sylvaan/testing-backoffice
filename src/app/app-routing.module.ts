@@ -5,6 +5,8 @@ import { LoginComponent } from './features/login/login.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { LayoutComponent } from './shared/layout/layout.component';
 import { EmployeeListComponent } from './features/employees/employee-list/employee-list.component';
+import { EmployeeDetailComponent } from './features/employees/employee-detail/employee-detail.component';
+import { EmployeeAddComponent } from './features/employees/employee-add/employee-add.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -16,6 +18,8 @@ const routes: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'employees', component: EmployeeListComponent },
+      { path: 'employees/add', component: EmployeeAddComponent },
+      { path: 'employees/detail/:id', component: EmployeeDetailComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

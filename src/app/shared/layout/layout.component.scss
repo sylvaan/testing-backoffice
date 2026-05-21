@@ -7,7 +7,6 @@
   overflow: hidden;
 }
 
-/* Sidebar Styling: Clean Soft-Light Theme */
 .app-sidebar {
   width: 250px;
   height: 100%;
@@ -92,7 +91,6 @@
   }
 }
 
-/* Main Area Layout */
 .app-main-content {
   flex-grow: 1;
   display: flex;
@@ -102,7 +100,6 @@
   overflow: hidden;
 }
 
-/* Topbar Styling */
 .app-topbar {
   height: 70px;
   background-color: #ffffff;
@@ -183,7 +180,6 @@
   }
 }
 
-/* Body Area */
 .app-body {
   flex-grow: 1;
   padding: 2rem;

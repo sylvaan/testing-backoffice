@@ -1,0 +1,138 @@
+<div class="card card-custom">
+  <div class="card-header border-0 pt-6 pb-2">
+    <div class="card-title flex-column">
+      <h3 class="card-label font-weight-bold text-dark m-0">Tambah Pegawai Baru</h3>
+    </div>
+  </div>
+
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <h5 class="section-title text-uppercase mb-4">Informasi Pribadi</h5>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label class="form-label required">Nama Depan</label>
+            <input type="text" formControlName="firstName" class="form-control-custom" placeholder="contoh: Aditya"
+              [class.is-invalid]="employeeForm.get('firstName')?.invalid && employeeForm.get('firstName')?.touched" />
+            <div class="invalid-feedback-custom"
+              *ngIf="employeeForm.get('firstName')?.invalid && employeeForm.get('firstName')?.touched">
+              Nama depan wajib diisi
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="form-label required">Nama Belakang</label>
+            <input type="text" formControlName="lastName" class="form-control-custom" placeholder="contoh: Susanto"
+              [class.is-invalid]="employeeForm.get('lastName')?.invalid && employeeForm.get('lastName')?.touched" />
+            <div class="invalid-feedback-custom"
+              *ngIf="employeeForm.get('lastName')?.invalid && employeeForm.get('lastName')?.touched">
+              Nama belakang wajib diisi
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required">Username</label>
+          <div class="input-group-custom">
+            <span class="input-group-addon">&#64;</span>
+            <input type="text" formControlName="username" class="form-control-custom addon-input"
+              placeholder="contoh: aditya.susanto"
+              [class.is-invalid]="employeeForm.get('username')?.invalid && employeeForm.get('username')?.touched" />
+          </div>
+          <span class="text-muted font-size-xs d-block mt-1">Username otomatis terisi, hanya boleh huruf kecil, angka,
+            dan titik.</span>
+          <div class="invalid-feedback-custom"
+            *ngIf="employeeForm.get('username')?.invalid && employeeForm.get('username')?.touched">
+            <span *ngIf="employeeForm.get('username')?.errors?.['required']">Username wajib diisi</span>
+            <span *ngIf="employeeForm.get('username')?.errors?.['pattern']">Hanya boleh huruf kecil, angka, dan titik
+              (.)</span>
+            <span *ngIf="employeeForm.get('username')?.errors?.['minlength']">Username minimal 3 karakter</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required">Email Kantor</label>
+          <input type="email" formControlName="email" class="form-control-custom"
+            placeholder="contoh: aditya.susanto@company.com"
+            [class.is-invalid]="employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched" />
+          <div class="invalid-feedback-custom"
+            *ngIf="employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched">
+            <span *ngIf="employeeForm.get('email')?.errors?.['required']">Email kantor wajib diisi</span>
+            <span *ngIf="employeeForm.get('email')?.errors?.['email']">Format email tidak valid</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required">Gaji Pokok (Rp)</label>
+          <div class="input-group-custom">
+            <span class="input-group-addon">Rp</span>
+            <input type="text" formControlName="basicSalary" class="form-control-custom addon-input"
+              placeholder="contoh: 12500000"
+              [class.is-invalid]="employeeForm.get('basicSalary')?.invalid && employeeForm.get('basicSalary')?.touched" />
+          </div>
+          <div class="invalid-feedback-custom"
+            *ngIf="employeeForm.get('basicSalary')?.invalid && employeeForm.get('basicSalary')?.touched">
+            <span *ngIf="employeeForm.get('basicSalary')?.errors?.['required']">Gaji pokok wajib diisi</span>
+            <span *ngIf="employeeForm.get('basicSalary')?.errors?.['pattern']">Gaji pokok harus berupa angka
+              murni</span>
+            <span *ngIf="employeeForm.get('basicSalary')?.errors?.['min']">Gaji pokok tidak boleh negatif</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <h5 class="section-title text-uppercase mb-4">Informasi Administrasi & Tanggal</h5>
+
+        <div class="form-group">
+          <label class="form-label required">Grup Divisi</label>
+          <ng-select [items]="groups" formControlName="group" placeholder="Pilih grup divisi..." [clearable]="true"
+            [searchable]="true" class="ng-select-custom-form"
+            [class.is-invalid]="employeeForm.get('group')?.invalid && employeeForm.get('group')?.touched">
+          </ng-select>
+          <div class="invalid-feedback-custom"
+            *ngIf="employeeForm.get('group')?.invalid && employeeForm.get('group')?.touched">
+            Grup divisi wajib dipilih
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required">Tanggal Lahir</label>
+          <input type="date" formControlName="birthDate" class="form-control-custom" [max]="todayStr"
+            [class.is-invalid]="employeeForm.get('birthDate')?.invalid && employeeForm.get('birthDate')?.touched" />
+          <div class="invalid-feedback-custom"
+            *ngIf="employeeForm.get('birthDate')?.invalid && employeeForm.get('birthDate')?.touched">
+            <span *ngIf="employeeForm.get('birthDate')?.errors?.['required']">Tanggal lahir wajib diisi</span>
+            <span *ngIf="employeeForm.get('birthDate')?.errors?.['futureDate']">Tanggal lahir tidak boleh di masa
+              depan</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required">Status Pegawai</label>
+          <div class="status-toggle-container">
+            <label class="status-radio-option">
+              <input type="radio" formControlName="status" value="Aktif" />
+              <span class="status-radio-label badge-active">Aktif</span>
+            </label>
+            <label class="status-radio-option">
+              <input type="radio" formControlName="status" value="Nonaktif" />
+              <span class="status-radio-label badge-inactive">Nonaktif</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer d-flex justify-content-end p-0 pt-6 border-0 gap-3">
+      <button type="button" class="btn-cancel-custom" (click)="goBack()">
+        <i class="fas fa-arrow-left"></i>
+        <span>Batal</span>
+      </button>
+      <button type="submit" class="btn-primary-custom" [disabled]="submitting">
+        <i class="fas" [ngClass]="submitting ? 'fa-spinner fa-spin' : 'fa-save'"></i>
+        <span>{{ submitting ? 'Menyimpan...' : 'Simpan Pegawai' }}</span>
+      </button>
+    </div>
+  </form>
+</div>
